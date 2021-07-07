@@ -23,6 +23,8 @@
 
 .recommendations .cards {
   display: flex;
+  flex-wrap: wrap;
+  padding: 0 30px;
 }
 
 .moreView .cards {
@@ -32,13 +34,19 @@
 }
 
 .card {
+  text-decoration: none;
+  color: #002f34;
   margin-right: 15px;
   padding: 13px;
   max-width: 222px;
   width: 222px;
-  height: 270px;
+  height: 295px;
   display: inline-block;
   cursor: pointer;
+  margin-top: 15px;
+}
+.card:hover{
+  color: #002f34;
 }
 
 .card .favorite {
@@ -73,7 +81,7 @@
 }
 .card .date {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   font-size: small;
 }
 

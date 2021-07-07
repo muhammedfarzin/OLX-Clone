@@ -1,0 +1,8 @@
+.rotate{
+    transform: rotate(180deg);
+}
+
+.arrowDiv{
+    text-align: center;
+    transition: transform .5s;
+}

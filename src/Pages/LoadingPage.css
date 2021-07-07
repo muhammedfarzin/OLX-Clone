@@ -1,0 +1,85 @@
+.loadingScreen{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: table;
+    position: fixed;
+    text-align: center;
+    background: rgba(0, 0, 0, .8);
+}
+
+.loadingIcon{
+    margin: 0 auto;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+svg:not(:root){
+    overflow: hidden;
+}
+
+.loadingScreen .loadingIcon p{
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    margin: 15px 0 0;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+p{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.loadingSvg{
+    animation: rotate 2s linear infinite;
+}
+
+.loadingScreen .loadingIcon circle{
+    stroke: #fff;
+}
+
+.Loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+ }
+
+ .loadingSvg .loadingCircle{
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    stroke-dasharray: 1,150;
+    animation: loading 1.5s ease-in-out infinite;
+ }
+
+@keyframes rotate{
+    to{transform: rotate(1turn);}
+}
+@keyframes loading{
+    0%{
+        stroke-dashoffset: 0;
+        stroke-dasharray: 1,150;
+    }
+    50%{
+        stroke-dashoffset: -35;
+        stroke-dasharray: 90,150;
+    }
+    to{
+        stroke-dashoffset: -124;
+        stroke-dasharray: 90,150;
+    }
+}
+
+ :not(svg){
+     transform-origin: 0px 0px;
+ }

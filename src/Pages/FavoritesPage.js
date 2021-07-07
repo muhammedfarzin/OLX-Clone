@@ -1,19 +1,18 @@
 import React from 'react'
-
 import Header from '../Components/Header/Header'
-import View from '../Components/View/View'
-import LoadingPage from './LoadingPage'
 import Footer from '../Components/Footer/Footer'
+import Favorites from '../Components/Favorites/Favorites'
+import LoadingPage from './LoadingPage'
 
-function ViewPost(props) {
+function FavoritesPage() {
     return (
         <div>
             <LoadingPage />
             <Header />
-            <View />
+            <Favorites />
             <Footer />
         </div>
     )
 }
 
-export default ViewPost
+export default FavoritesPage

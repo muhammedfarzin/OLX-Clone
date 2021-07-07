@@ -1,9 +1,54 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Heart from '../../assets/Heart';
+import { firebaseContext } from '../../store/Context';
+import { LoadContext } from '../../store/LoadContext';
+import { postContext } from '../../store/postContext'
 import './Post.css';
 
 function Posts() {
+  const [products, setProducts] = useState()
+  const [recommendProducts, setRecommendProducts] = useState([])
+
+  const { firebase } = useContext(firebaseContext)
+  const { setPostDetails } = useContext(postContext)
+  const { setLoading } = useContext(LoadContext)
+
+  const history = useHistory()
+  const date=new Date()
+  const today=date.toDateString()
+
+  // const setFavorite=(){}
+
+  useEffect(() => {
+    if (!products) {
+      setLoading(true)
+      firebase.firestore().collection('products').limit(12).get().then((snapshot) => {
+        const allPost = snapshot.docs.map((product) => {
+          return {
+            ...product.data(),
+            id: product.id
+          }
+        })
+        setProducts(allPost)
+        setLoading(false)
+      }).catch(err => {
+        console.log(err);
+        setLoading(false)
+      })
+      firebase.firestore().collection('products').where('recommend', '==', true).limit(15).get()
+        .then((snapshot) => {
+          const recommendPost = snapshot.docs.map(product => {
+            return {
+              ...product.data(),
+              id: product.id
+            }
+          })
+          setRecommendProducts(recommendPost)
+        })
+    } else setLoading(false)
+  }, [firebase, products, setLoading])
 
   return (
     <div className="postParentDiv">
@@ -13,24 +58,38 @@ function Posts() {
           <span>View more</span>
         </div>
         <div className="cards">
-          <div
-            className="card"
-          >
-            <div className="favorite">
-              <Heart></Heart>
-            </div>
-            <div className="image">
-              <img src="../../../Images/R15V3.jpg" alt="" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; 250000</p>
-              <span className="kilometer">Two Wheeler</span>
-              <p className="name"> YAMAHA R15V3</p>
-            </div>
-            <div className="date">
-              <span>Tue May 04 2021</span>
-            </div>
-          </div>
+          {
+            products && products.map((product, index) => {
+              return (
+                <a href='/view'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setLoading(true)
+                    setPostDetails(product)
+                    history.push('/view')
+                  }}
+                  key={index}
+                  className="card"
+                >
+                  <div title="favorite" className="favorite">
+                    <Heart proId={product.id}></Heart>
+                  </div>
+                  <div className="image">
+                    <img src={product.url} alt="" />
+                  </div>
+                  <div className="content">
+                    <p className="rate">&#x20B9; {product.price}</p>
+                    <span className="kilometer">{product.category}</span>
+                    <p className="name"> {product.name}</p>
+                  </div>
+                  <div className="date">
+                    <span>{product.place}</span>
+                    <span>{product.createdAt===today ? "Today" : product.createdAt}</span>
+                  </div>
+                </a>
+              )
+            })
+          }
         </div>
       </div>
       <div className="recommendations">
@@ -38,22 +97,34 @@ function Posts() {
           <span>Fresh recommendations</span>
         </div>
         <div className="cards">
-          <div className="card">
-            <div className="favorite">
-              <Heart></Heart>
-            </div>
-            <div className="image">
-              <img src="../../../Images/R15V3.jpg" alt="" />
-            </div>
-            <div className="content">
-              <p className="rate">&#x20B9; 250000</p>
-              <span className="kilometer">Two Wheeler</span>
-              <p className="name"> YAMAHA R15V3</p>
-            </div>
-            <div className="date">
-              <span>10/5/2021</span>
-            </div>
-          </div>
+          {
+            recommendProducts.map((product, index) => {
+              return (
+                <a href="/view" className="card" key={index} onClick={(e) => {
+                  e.preventDefault()
+                  setLoading(true)
+                  setPostDetails(product)
+                  history.push('/view')
+                }}>
+                  <div title="favorite" className="favorite">
+                    <Heart proId={product.id}></Heart>
+                  </div>
+                  <div className="image">
+                    <img src={product.url} alt="" />
+                  </div>
+                  <div className="content">
+                    <p className="rate">&#x20B9; {product.price}</p>
+                    <span className="kilometer">{product.category}</span>
+                    <p className="name"> {product.name}</p>
+                  </div>
+                  <div className="date">
+                    <span>{product.place}</span>
+                    <span>{product.createdAt===today ? "Today" : product.createdAt}</span>
+                  </div>
+                </a>
+              )
+            })
+          }
         </div>
       </div>
     </div>

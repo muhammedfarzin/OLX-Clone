@@ -1,0 +1,10 @@
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.container{
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    color: #002f34;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}

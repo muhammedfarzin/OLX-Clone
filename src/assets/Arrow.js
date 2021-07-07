@@ -1,13 +1,14 @@
 import React from 'react'
+import './Arrow.css'
 
-
-export default function Arrow() {
-    return ( <svg
-        width="24px"
-        height="24px"
+export default function Arrow(props) {
+  return (
+      <svg
+        width={props.small ? "12px" : "24px"}
+        height={props.small ? "12px" : "24px"}
         viewBox="0 0 1024 1024"
         data-aut-id="icon"
-        className
+        className={props.rotate ? "arrowDiv rotate" : "arrowDiv"}
         fillRule="evenodd"
       >
         <path
